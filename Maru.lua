@@ -1,79 +1,61 @@
--- [[ MARU HUB PRENIUM [MON MOSKVA] - EXCLUSIVE VERSION ]] --
+-- [[ MARU HUB PRENIUM [MON MOSKVA] - GLOBAL VERSION ]] --
 -- LICENSED TO: Con.Chien.Cua.Ngai (TikTok)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 -- LOGIN INTERFACE
 local Window = Fluent:CreateWindow({
-    Title = "MARU HUB PRENIUM [MON MOSKVA]",
-    SubTitle = "TikTok: @Con.Chien.Cua.Ngai",
+    Title = "MARU HUB PRENIUM",
+    SubTitle = "by Mon Moskva",
     TabWidth = 160,
     Size = UDim2.fromOffset(450, 300),
     Acrylic = true,
-    Theme = "Dark"
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.RightControl
 })
 
-local LoginTab = Window:AddTab({ Title = "Авторизация", Icon = "lock" })
+local LoginTab = Window:AddTab({ Title = "Authorization", Icon = "lock" })
 
-LoginTab:AddParagraph({
-    Title = "КУПИТЬ КЛЮЧ / BUY KEY",
-    Content = "Contact TikTok: @Con.Chien.Cua.Ngai to get your access key."
-})
-
+-- FIXED: Clean Input (No more duplicate text)
 LoginTab:AddInput("Input", {
-    Title = "Введите ключ (Enter Key)",
+    Title = "ENTER YOUR ACCESS KEY",
     Default = "",
-    Placeholder = "Password...",
+    Placeholder = "Key is: C0ffee.Louis*Moon9",
     Callback = function(Value)
-        -- MASTER PASSWORD: C0ffee.Louis*Moon9
+        -- USE SAVED PASSWORD
         if Value == "C0ffee.Louis*Moon9" then
-            Fluent:Notify({Title = "ДОСТУП ОДОБРЕН", Content = "Welcome, Premium User!", Duration = 5})
+            Fluent:Notify({
+                Title = "ACCESS GRANTED",
+                Content = "Welcome, Mon Moskva! Loading script...",
+                Duration = 5
+            })
             Window:Destroy()
             
-            -- SECURITY: HWID BYPASS
-            local old; old = hookmetamethod(game, "__namecall", function(self, ...)
-                if getnamecallmethod() == "Kick" or getnamecallmethod() == "kick" then 
-                    return nil 
-                end
-                return old(self, ...)
-            end)
-            
-            -- INITIALIZE CORE DATA
-            getgenv().Key = "MARU-OI9DX-TX34-3C3K-W8PHQ-17VV6"
-            getgenv().id = "1314913266761339003"
-            
-            -- EXECUTE ORIGINAL MARU
-            task.spawn(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
-            end)
-            
-            -- INTERFACE OVERRIDE (MARU LAYOUT + MOSKVA TEXT)
-            task.spawn(function()
-                while task.wait(0.5) do
-                    for _, v in pairs(game:GetService("CoreGui"):GetDescendants()) do
-                        if v:IsA("TextLabel") or v:IsA("TextButton") then
-                            -- MAIN TITLE TAG WITH YOUR TIKTOK
-                            if v.Text:find("Maru") or v.Text:find("Hub") or v.Text:find("Premium") then
-                                v.Text = "MARU HUB PRENIUM [MON MOSKVA] | TikTok: @Con.Chien.Cua.Ngai"
-                            end
-                            -- MOSKVA LOCALIZATION
-                            local moscow = {
-                                ["Main"] = "Главный",
-                                ["Farm"] = "Ферма",
-                                ["Auto Farm"] = "Авто Ферма",
-                                ["Select Weapon"] = "Выбрать оружие",
-                                ["Teleport"] = "Телепортация",
-                                ["Stats"] = "Статистика",
-                                ["Settings"] = "Настройки",
-                                ["Elite Hunter"] = "Охотник на элиту",
-                                ["Shop"] = "Магазин",
-                                ["Raid"] = "Рейд"
-                            }
-                            if moscow[v.Text] then v.Text = moscow[v.Text] end
-                        end
-                    end
-                end
-            end)
+            -- LOAD MAIN SCRIPT
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/HuyMythic/my-script/main/MaruHub.lua"))()
+        else
+            Fluent:Notify({
+                Title = "INVALID KEY",
+                Content = "Please check your key or contact TikTok @Con.Chien.Cua.Ngai",
+                Duration = 5
+            })
         end
     end
 })
+
+-- MOVABLE LOGO BUTTON (FOR MOBILE)
+local ScreenGui = Instance.new("ScreenGui")
+local ImageButton = Instance.new("ImageButton")
+
+ScreenGui.Parent = game.CoreGui
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton.BackgroundTransparency = 1.0
+ImageButton.Position = UDim2.new(0.1, 0, 0.1, 0)
+ImageButton.Size = UDim2.new(0, 60, 0, 60)
+ImageButton.Image = "rbxassetid://15124033031" 
+ImageButton.Draggable = true 
+
+ImageButton.MouseButton1Click:Connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
+end)
