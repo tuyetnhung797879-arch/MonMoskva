@@ -1,4 +1,4 @@
--- [[ MARU HUB PRENIUM [MON MOSKVA] - GLOBAL VERSION ]] --
+-- [[ MARU HUB PRENIUM [MON MOSKVA] - OFFICIAL RELEASE ]] --
 -- LICENSED TO: Con.Chien.Cua.Ngai (TikTok)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -14,47 +14,49 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.RightControl
 })
 
-local LoginTab = Window:AddTab({ Title = "Authorization", Icon = "lock" })
+local LoginTab = Window:AddTab({ Title = "Auth", Icon = "lock" })
 
--- FIXED: Clean Input (No more duplicate text)
 LoginTab:AddInput("Input", {
-    Title = "ENTER YOUR ACCESS KEY",
+    Title = "VERIFICATION",
     Default = "",
-    Placeholder = "Key is: C0ffee.Louis*Moon9",
+    Placeholder = "Enter Key...",
     Callback = function(Value)
-        -- USE SAVED PASSWORD
+        -- SỬ DỤNG MẬT KHẨU ĐÃ LƯU: C0ffee.Louis*Moon9
         if Value == "C0ffee.Louis*Moon9" then
             Fluent:Notify({
-                Title = "ACCESS GRANTED",
-                Content = "Welcome, Mon Moskva! Loading script...",
+                Title = "SUCCESS",
+                Content = "Access Granted! Loading...",
                 Duration = 5
             })
             Window:Destroy()
-            
-            -- LOAD MAIN SCRIPT
             loadstring(game:HttpGet("https://raw.githubusercontent.com/HuyMythic/my-script/main/MaruHub.lua"))()
         else
-            Fluent:Notify({
-                Title = "INVALID KEY",
-                Content = "Please check your key or contact TikTok @Con.Chien.Cua.Ngai",
-                Duration = 5
-            })
+            Fluent:Notify({ Title = "WRONG KEY", Content = "Check TikTok @Con.Chien.Cua.Ngai", Duration = 5 })
         end
     end
 })
 
--- MOVABLE LOGO BUTTON (FOR MOBILE)
+-- LOGO "M1" CỦA ÔNG (VỚI ID CHUẨN)
 local ScreenGui = Instance.new("ScreenGui")
 local ImageButton = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
 
+ScreenGui.Name = "MonMoskvaGui"
 ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
+
 ImageButton.Parent = ScreenGui
-ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageButton.BackgroundTransparency = 1.0
-ImageButton.Position = UDim2.new(0.1, 0, 0.1, 0)
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BackgroundTransparency = 0.2
+ImageButton.Position = UDim2.new(0.12, 0, 0.09, 0)
 ImageButton.Size = UDim2.new(0, 60, 0, 60)
-ImageButton.Image = "rbxassetid://15124033031" 
+
+-- SỬ DỤNG ID ÔNG VỪA CUNG CẤP
+ImageButton.Image = "rbxassetid://97913781532351" 
+
 ImageButton.Draggable = true 
+UICorner.CornerRadius = UDim2.new(0, 15)
+UICorner.Parent = ImageButton
 
 ImageButton.MouseButton1Click:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
