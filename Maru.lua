@@ -1,62 +1,69 @@
--- [[ MARU HUB PRENIUM [MON MOSKVA] - OFFICIAL RELEASE ]] --
--- LICENSED TO: Con.Chien.Cua.Ngai (TikTok)
+-- [[ ANTI-BAN SYSTEM ]]
+local mt = getrawmetatable(game)
+setreadonly(mt, false)
+local old = mt.__namecall
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    if method == "Kick" or method == "kick" then
+        return nil
+    end
+    return old(self, ...)
+end)
+setreadonly(mt, true)
 
+-- [[ UI FLUENT ]]
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
--- LOGIN INTERFACE
 local Window = Fluent:CreateWindow({
-    Title = "MARU HUB PRENIUM",
-    SubTitle = "by Mon Moskva",
+    Title = "MARU HUB PRENIUM [MON MOSKVA]", 
+    Subtitle = "by Mon Moskva",
     TabWidth = 160,
     Size = UDim2.fromOffset(450, 300),
-    Acrylic = true,
+    Acrylic = true, 
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.RightControl
 })
 
-local LoginTab = Window:AddTab({ Title = "Auth", Icon = "lock" })
+-- [[ AUTHENTICATION ]]
+local LoginTab = Window:AddTab({ Title = "Авторизация", Icon = "lock" })
 
 LoginTab:AddInput("Input", {
-    Title = "VERIFICATION",
+    Title = "ВЕРИФИКАЦИЯ БЕЗОПАСНОСТИ",
     Default = "",
-    Placeholder = "Enter Key...",
+    Placeholder = "", -- Fix lỗi đè chữ theo quy tắc
     Callback = function(Value)
-        -- SỬ DỤNG MẬT KHẨU ĐÃ LƯU: C0ffee.Louis*Moon9
-        if Value == "C0ffee.Louis*Moon9" then
+        -- Password: C0ffee.Louis*Moon9.
+        if Value == "C0ffee.Louis*Moon9." then 
             Fluent:Notify({
-                Title = "SUCCESS",
-                Content = "Access Granted! Loading...",
+                Title = "УСПЕХ",
+                Content = "Добро пожаловать, Mon Moskva!",
                 Duration = 5
             })
-            Window:Destroy()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/HuyMythic/my-script/main/MaruHub.lua"))()
+            Window:Destroy() 
+            -- [[ MAIN SCRIPT ]]
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/HyMythic/my-script/main/MaruHub.lua"))()
         else
-            Fluent:Notify({ Title = "WRONG KEY", Content = "Check TikTok @Con.Chien.Cua.Ngai", Duration = 5 })
+            Fluent:Notify({
+                Title = "ОШИБКА",
+                Content = "Неверный ключ!",
+                Duration = 5
+            })
         end
     end
 })
 
--- LOGO "M1" CỦA ÔNG (VỚI ID CHUẨN)
-local ScreenGui = Instance.new("ScreenGui")
-local ImageButton = Instance.new("ImageButton")
-local UICorner = Instance.new("UICorner")
+-- [[ FLOATING LOGO M1 ]]
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local ImageButton = Instance.new("ImageButton", ScreenGui)
+local UICorner = Instance.new("UICorner", ImageButton)
 
-ScreenGui.Name = "MonMoskvaGui"
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ResetOnSpawn = false
-
-ImageButton.Parent = ScreenGui
-ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-ImageButton.BackgroundTransparency = 0.2
-ImageButton.Position = UDim2.new(0.12, 0, 0.09, 0)
+ImageButton.Image = "rbxassetid://10618903337" -- ID logo sạch
 ImageButton.Size = UDim2.new(0, 60, 0, 60)
-
--- SỬ DỤNG ID ÔNG VỪA CUNG CẤP
-ImageButton.Image = "rbxassetid://97913781532351" 
-
-ImageButton.Draggable = true 
-UICorner.CornerRadius = UDim2.new(0, 15)
-UICorner.Parent = ImageButton
+ImageButton.Position = UDim2.new(0.12, 0, 0.09, 0)
+ImageButton.Draggable = true -- Quy tắc: Phải di chuyển được
+ImageButton.BackgroundTransparency = 0.3
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+UICorner.CornerRadius = UDim.new(0, 10)
 
 ImageButton.MouseButton1Click:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.RightControl, false, game)
